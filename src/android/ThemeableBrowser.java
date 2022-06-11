@@ -88,6 +88,8 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class ThemeableBrowser extends CordovaPlugin {
@@ -357,7 +359,7 @@ public class ThemeableBrowser extends CordovaPlugin {
                     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                         // This action will have the side-effect of blurring the currently focused
                         // element
-                        inAppWebView.loadUrl("javascript:" + finalScriptToInject);
+                        inAppWebView.loadUrl("javascript:" + finalScriptToInject, null);
                     } else {
                         inAppWebView.evaluateJavascript(finalScriptToInject, null);
                     }
@@ -459,7 +461,7 @@ public class ThemeableBrowser extends CordovaPlugin {
                 // thread other than your app's UI thread, it can cause
                 // unexpected results."
                 // http://developer.android.com/guide/webapps/migrating.html#Threads
-                inAppWebView.loadUrl("about:blank");
+                inAppWebView.loadUrl("about:blank", null);
 
                 try {
                     JSONObject obj = new JSONObject();
@@ -559,9 +561,9 @@ public class ThemeableBrowser extends CordovaPlugin {
         imm.hideSoftInputFromWindow(edittext.getWindowToken(), 0);
 
         if (!url.startsWith("http") && !url.startsWith("file:")) {
-            this.inAppWebView.loadUrl("http://" + url);
+            this.inAppWebView.loadUrl("http://" + url, null);
         } else {
-            this.inAppWebView.loadUrl(url);
+            this.inAppWebView.loadUrl(url, null);
         }
         this.inAppWebView.requestFocus();
     }
@@ -989,8 +991,9 @@ public class ThemeableBrowser extends CordovaPlugin {
                 } else if (features.clearsessioncache) {
                     CookieManager.getInstance().removeSessionCookie();
                 }
-
-                inAppWebView.loadUrl(url);
+                Map<String, String> extraHeaders = new HashMap<String, String>();
+                extraHeaders.put("X-Requested-With", "");
+                inAppWebView.loadUrl(url, extraHeaders);
                 inAppWebView.getSettings().setLoadWithOverviewMode(true);
                 inAppWebView.getSettings().setUseWideViewPort(true);
                 inAppWebView.requestFocus();
@@ -1579,7 +1582,10 @@ public class ThemeableBrowser extends CordovaPlugin {
                 }
                 return true;
             }
-            return false;
+            Map<String, String> extraHeaders = new HashMap<String, String>();
+            extraHeaders.put("X-Requested-With", "");
+            webView.loadUrl(url, extraHeaders);
+            return true;
         }
 
 
