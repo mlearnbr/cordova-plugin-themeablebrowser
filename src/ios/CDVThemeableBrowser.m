@@ -654,6 +654,22 @@
         // do not load content in the web view since this URL is handled by an
         // external app
         shouldStart = NO;
+    } else if (![[ url scheme] isEqualToString:@"http"] && ![[ url scheme] isEqualToString:@"https"]) {
+        [webView stopLoading];
+        [self openInSystem:url];
+        if (
+            originalUrl != nil
+            && [[originalUrl absoluteString] isEqualToString:[initUrl absoluteString]]
+            && _framesOpened == 1
+            ) {
+                NSDictionary *event = @{
+                    @"type": @"ThemeableBrowserRedirectExternalOnOpen",
+                    @"message": @"ThemeableBrowser redirected to open an external app on fresh start"
+                };
+                
+                [self emitEvent:event];
+            }
+        shouldStart = NO;
     } else if ((self.callbackId != nil) && isTopLevelNavigation) {
         self.themeableBrowserViewController.currentURL = request.URL;
         // Send a loadstart event for each top-level navigation (includes redirects).

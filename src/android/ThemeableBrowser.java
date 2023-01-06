@@ -1581,6 +1581,15 @@ public class ThemeableBrowser extends CordovaPlugin {
                     Log.e(LOG_TAG, "Custom scheme exception: " + e.toString());
                 }
                 return true;
+            } else {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(url));
+                    cordova.getActivity().startActivity(intent);
+                    return true;
+                } catch (android.content.ActivityNotFoundException e) {
+                    Log.e(LOG_TAG, "Error with " + url + ": " + e.toString());
+                }
             }
             Map<String, String> extraHeaders = new HashMap<String, String>();
             extraHeaders.put("X-Requested-With", "");
