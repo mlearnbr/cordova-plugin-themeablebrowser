@@ -1054,7 +1054,7 @@ public class ThemeableBrowser extends CordovaPlugin {
 
                 if (backButtonFeature != null && features.backButton != null
                         && ALIGN_RIGHT.equals(features.backButton.align)) {
-                    rightButtonContainer.addView(back);
+                    rightButtonContainer.addView(backButtonFeature);
                     rightContainerWidth
                             += backButtonFeature.getLayoutParams().width;
                 }
