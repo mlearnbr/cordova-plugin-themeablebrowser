@@ -220,6 +220,9 @@ public class ThemeableBrowser extends CordovaPlugin {
         else if (action.equals("close")) {
             closeDialog();
         }
+        else if (action.equals("goBack")) {
+            goBack();
+        }
         else if (action.equals("injectScriptCode")) {
             String jsWrapper = null;
             if (args.getBoolean(1)) {
