@@ -132,8 +132,6 @@ public class ThemeableBrowser extends CordovaPlugin {
     private final static int FILECHOOSER_REQUESTCODE = 1;
     private final static int FILECHOOSER_REQUESTCODE_LOLLIPOP = 2;
 
-    private Button backButtonFeature;
-
     /**
      * Executes the request and returns PluginResult.
      *
@@ -216,11 +214,6 @@ public class ThemeableBrowser extends CordovaPlugin {
                     PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, result);
                     pluginResult.setKeepCallback(true);
                     callbackContext.sendPluginResult(pluginResult);
-
-                    if (features.backToApp) {
-                        backButtonFeature.performClick();
-                        // closeDialog();
-                    }
                 }
             });
         }
@@ -682,7 +675,7 @@ public class ThemeableBrowser extends CordovaPlugin {
                 });
 
                 // Back button
-                backButtonFeature = createButton(
+                final Button back = createButton(
                     features.backButton,
                     "back button",
                     new View.OnClickListener() {
@@ -700,10 +693,10 @@ public class ThemeableBrowser extends CordovaPlugin {
                     }
                 );
 
-                if (backButtonFeature != null) {
-                    backButtonFeature.setEnabled(features.backButtonCanClose);
+                if (back != null) {
+                    back.setEnabled(features.backButtonCanClose);
                     if(features.backButton != null && !features.backButton.showFirstTime) {
-                        backButtonFeature.setVisibility(INVISIBLE);                        
+                        back.setVisibility(INVISIBLE);                        
                     }
                 }
 
@@ -742,7 +735,7 @@ public class ThemeableBrowser extends CordovaPlugin {
                 if (reloadBtn != null) {
                     reloadBtn.setEnabled(true);
                     if(features.backButton != null && !features.backButton.showFirstTime) {
-                        backButtonFeature.setVisibility(INVISIBLE);    
+                        back.setVisibility(INVISIBLE);    
                     }
                 }
 
@@ -921,14 +914,14 @@ public class ThemeableBrowser extends CordovaPlugin {
                             title.setText(inAppWebView.getTitle());
                         }
 
-                        if (backButtonFeature != null) {
-                            backButtonFeature.setEnabled(canGoBack || features.backButtonCanClose);
+                        if (back != null) {
+                            back.setEnabled(canGoBack || features.backButtonCanClose);
                             
                             if(features.backButton != null && !features.backButton.showFirstTime) {
                                 if(canGoBack) {
-                                    backButtonFeature.setVisibility(VISIBLE);    
+                                    back.setVisibility(VISIBLE);    
                                 }else {
-                                    backButtonFeature.setVisibility(INVISIBLE);    
+                                    back.setVisibility(INVISIBLE);    
                                 }
                             }
                                 
@@ -1052,18 +1045,18 @@ public class ThemeableBrowser extends CordovaPlugin {
                             += forward.getLayoutParams().width;
                 }
 
-                if (backButtonFeature != null && features.backButton != null
+                if (back != null && features.backButton != null
                         && ALIGN_RIGHT.equals(features.backButton.align)) {
-                    rightButtonContainer.addView(backButtonFeature);
+                    rightButtonContainer.addView(back);
                     rightContainerWidth
-                            += backButtonFeature.getLayoutParams().width;
+                            += back.getLayoutParams().width;
                 }
 
-                if (backButtonFeature != null && features.backButton != null
+                if (back != null && features.backButton != null
                         && !ALIGN_RIGHT.equals(features.backButton.align)) {                    
-                    leftButtonContainer.addView(backButtonFeature, 0);
+                    leftButtonContainer.addView(back, 0);
                     leftContainerWidth
-                            += backButtonFeature.getLayoutParams().width;
+                            += back.getLayoutParams().width;
                 }
 
                 if (forward != null && features.forwardButton != null
@@ -1762,7 +1755,6 @@ public class ThemeableBrowser extends CordovaPlugin {
         public BrowserButton backButton;
         public BrowserButton forwardButton;
         public BrowserButton closeButton;
-        public boolean backToApp;
         public BrowserButton reloadButton;
         public BrowserMenu menu;
         public BrowserButton[] customButtons;
