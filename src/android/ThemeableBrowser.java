@@ -922,7 +922,7 @@ public class ThemeableBrowser extends CordovaPlugin {
                         }
 
                         if (backButtonFeature != null) {
-                            back.setEnabled(canGoBack || features.backButtonCanClose);
+                            backButtonFeature.setEnabled(canGoBack || features.backButtonCanClose);
                             
                             if(features.backButton != null && !features.backButton.showFirstTime) {
                                 if(canGoBack) {
