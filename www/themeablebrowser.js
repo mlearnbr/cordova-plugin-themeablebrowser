@@ -40,7 +40,7 @@ ThemeableBrowser.prototype = {
       this.channels[event.type].fire(event);
     }
   },
-  close: function (eventname) {
+  goBack: function (eventname) {
     exec(null, null, "ThemeableBrowser", "goBack", []);
     return this;
   },
@@ -149,6 +149,7 @@ exports.open = function (strUrl, strWindowName, strWindowFeatures, callbacks) {
       strWindowFeatures || "",
     ]);
   }, 0);
+
   return iab;
 };
 
