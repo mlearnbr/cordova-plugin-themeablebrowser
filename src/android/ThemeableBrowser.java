@@ -214,6 +214,10 @@ public class ThemeableBrowser extends CordovaPlugin {
                     PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, result);
                     pluginResult.setKeepCallback(true);
                     callbackContext.sendPluginResult(pluginResult);
+
+                    if (features.backToApp) {
+                        closeDialog()
+                    }
                 }
             });
         }
