@@ -132,6 +132,8 @@ public class ThemeableBrowser extends CordovaPlugin {
     private final static int FILECHOOSER_REQUESTCODE = 1;
     private final static int FILECHOOSER_REQUESTCODE_LOLLIPOP = 2;
 
+    private Button backButtonFeature;
+
     /**
      * Executes the request and returns PluginResult.
      *
@@ -216,16 +218,14 @@ public class ThemeableBrowser extends CordovaPlugin {
                     callbackContext.sendPluginResult(pluginResult);
 
                     if (features.backToApp) {
-                        closeDialog()
+                        backButtonFeature.performClick();
+                        // closeDialog();
                     }
                 }
             });
         }
         else if (action.equals("close")) {
             closeDialog();
-        }
-        else if (action.equals("goBack")) {
-            goBack();
         }
         else if (action.equals("injectScriptCode")) {
             String jsWrapper = null;
@@ -682,7 +682,7 @@ public class ThemeableBrowser extends CordovaPlugin {
                 });
 
                 // Back button
-                final Button back = createButton(
+                backButtonFeature = createButton(
                     features.backButton,
                     "back button",
                     new View.OnClickListener() {
@@ -700,10 +700,10 @@ public class ThemeableBrowser extends CordovaPlugin {
                     }
                 );
 
-                if (back != null) {
-                    back.setEnabled(features.backButtonCanClose);
+                if (backButtonFeature != null) {
+                    backButtonFeature.setEnabled(features.backButtonCanClose);
                     if(features.backButton != null && !features.backButton.showFirstTime) {
-                        back.setVisibility(INVISIBLE);                        
+                        backButtonFeature.setVisibility(INVISIBLE);                        
                     }
                 }
 
@@ -742,7 +742,7 @@ public class ThemeableBrowser extends CordovaPlugin {
                 if (reloadBtn != null) {
                     reloadBtn.setEnabled(true);
                     if(features.backButton != null && !features.backButton.showFirstTime) {
-                        back.setVisibility(INVISIBLE);    
+                        backButtonFeature.setVisibility(INVISIBLE);    
                     }
                 }
 
@@ -921,14 +921,14 @@ public class ThemeableBrowser extends CordovaPlugin {
                             title.setText(inAppWebView.getTitle());
                         }
 
-                        if (back != null) {
+                        if (backButtonFeature != null) {
                             back.setEnabled(canGoBack || features.backButtonCanClose);
                             
                             if(features.backButton != null && !features.backButton.showFirstTime) {
                                 if(canGoBack) {
-                                    back.setVisibility(VISIBLE);    
+                                    backButtonFeature.setVisibility(VISIBLE);    
                                 }else {
-                                    back.setVisibility(INVISIBLE);    
+                                    backButtonFeature.setVisibility(INVISIBLE);    
                                 }
                             }
                                 
@@ -1052,18 +1052,18 @@ public class ThemeableBrowser extends CordovaPlugin {
                             += forward.getLayoutParams().width;
                 }
 
-                if (back != null && features.backButton != null
+                if (backButtonFeature != null && features.backButton != null
                         && ALIGN_RIGHT.equals(features.backButton.align)) {
                     rightButtonContainer.addView(back);
                     rightContainerWidth
-                            += back.getLayoutParams().width;
+                            += backButtonFeature.getLayoutParams().width;
                 }
 
-                if (back != null && features.backButton != null
+                if (backButtonFeature != null && features.backButton != null
                         && !ALIGN_RIGHT.equals(features.backButton.align)) {                    
-                    leftButtonContainer.addView(back, 0);
+                    leftButtonContainer.addView(backButtonFeature, 0);
                     leftContainerWidth
-                            += back.getLayoutParams().width;
+                            += backButtonFeature.getLayoutParams().width;
                 }
 
                 if (forward != null && features.forwardButton != null

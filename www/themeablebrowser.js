@@ -40,10 +40,6 @@ ThemeableBrowser.prototype = {
       this.channels[event.type].fire(event);
     }
   },
-  goBack: function (eventname) {
-    exec(null, null, "ThemeableBrowser", "goBack", []);
-    return this;
-  },
   close: function (eventname) {
     exec(null, null, "ThemeableBrowser", "close", []);
     return this;
