@@ -1762,6 +1762,7 @@ public class ThemeableBrowser extends CordovaPlugin {
         public BrowserButton backButton;
         public BrowserButton forwardButton;
         public BrowserButton closeButton;
+        public boolean backToApp;
         public BrowserButton reloadButton;
         public BrowserMenu menu;
         public BrowserButton[] customButtons;
